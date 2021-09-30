@@ -1,0 +1,34 @@
+#The build spec is used by the CD system.
+version: 0.2
+
+env:
+  secrets-manager:
+    NPM_TOKEN: arn:aws:secretsmanager:eu-west-1:928065939415:secret:GitHubToken-cNwRM0
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 12
+    commands:
+      - npm config set @stage-tech:registry https://npm.pkg.github.com
+      - npm config set '//npm.pkg.github.com/:_authToken' ${NPM_TOKEN}
+
+  pre_build:
+    commands:
+      - chmod 700 ./publish-package-pointer.sh
+  build:
+    commands:
+      - hash=$CODEBUILD_RESOLVED_SOURCE_VERSION
+      - ./build.sh $hash
+      - githubSecretTokenName=$GITHUB_TOKEN_SECRETNAME
+      - branch=$GITHUB_REPOSITORY_BRANCH
+      - mv packages/node-template-repo-.zip packages/node-template-repo-${hash}.zip
+      - ./publish-package-pointer.sh $hash $githubSecretTokenName $branch
+
+cache:
+  paths:
+    - './node_modules/**/*'
+artifacts:
+  files:
+    - '**/node-template-repo-${hash}.zip'
+  base-directory: 'packages'

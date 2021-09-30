@@ -1,0 +1,51 @@
+{
+  "name": "@stage-tech/node-template-repo",
+  "version": "6.3.3",
+  "description": "Add your project description here",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stage-tech/node-template-repo.git"
+  },
+  "files": [
+    "dist/**/*.*",
+    "package-pointer.json"
+  ],
+  "scripts": {
+    "preinstall": "node -e \"if(process.env.npm_execpath.indexOf('yarn') === -1) throw new Error('Please use Yarn instead of NPM to install dependencies. See: https://yarnpkg.com/lang/en/docs/install/')\"",
+    "build": "tsc",
+    "test": "jest --forceExit --coverage --verbose --detectOpenHandles",
+    "start": "tsc && node 'dist/index.js'",
+    "lint": "tsc && eslint '*/**/*.{js,ts,tsx}' --fix",
+    "lambda:pack": "mkdir packages; hash=$(git rev-parse --short HEAD); zip -r \"./packages/node-template-repo-${hash}.zip\" . -x '*.ENV' '*.eslintrc*' './packages/*' './src/*' './test/*' './coverage/*' '*.git*' '*.n*rc' '*.DS_Store' 'yarn.lock' '.prettierrc.js' 'tsconfig.json' '.eslintignore' '.vscode/*' 'jest.config.js'",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.0.2",
+    "@types/node": "^16.10.2",
+    "@typescript-eslint/eslint-plugin": "^4.32.0",
+    "@typescript-eslint/parser": "^4.32.0",
+    "eslint": "7.26.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.1",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "husky": "^7.0.2",
+    "jest": "27.2.4",
+    "jest-sonar-reporter": "^2.0.0",
+    "lint-staged": "^11.0.0",
+    "prettier": "^2.4.1",
+    "ts-jest": "27.0.5",
+    "typescript": "^4.4.3"
+  },
+  "lint-staged": {
+    "*.{json,md}": [
+      "prettier --write"
+    ],
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix -c .eslintrc.js",
+      "prettier --write"
+    ]
+  }
+}

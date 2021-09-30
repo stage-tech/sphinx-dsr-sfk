@@ -1,0 +1,129 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - 'master'
+    paths-ignore:
+      - 'package.json'
+
+jobs:
+  lint-and-test:
+    name: "Master CI - Lint and Test"
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - name: "Checkout source code"
+        uses: "actions/checkout@v2"
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref }}
+          token: ${{ secrets.BUILD_ACTION_TOKEN }}
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: 'https://npm.pkg.github.com/'
+          scope: '@stage-tech'
+
+      - name: Cache dependencies
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-${{ env.cache-name }}
+
+      - name: Install Dependencies
+        run: yarn
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.BUILD_ACTION_TOKEN }}
+
+      - name: Build and Lint
+        run: yarn lint
+
+      - name: Run Tests
+        run: yarn test -u
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  bump-version:
+    name: "Master CI - Bump Version"
+    needs: lint-and-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout source code"
+        uses: "actions/checkout@v2"
+        with:
+          ref: ${{ github.ref }}
+          token: ${{ secrets.BUILD_ACTION_TOKEN }}
+
+      - name: "cat package.json"
+        run: cat ./package.json
+
+      - name: "Setup Node.js"
+        uses: "actions/setup-node@v1"
+        with:
+          node-version: 12
+
+      - name: "Automated Version Bump"
+        uses: "phips28/gh-action-bump-version@master"
+        with:
+          tag-prefix: ''
+        env:
+          BUILD_ACTION_TOKEN: ${{ secrets.BUILD_ACTION_TOKEN }}
+
+      - name: "cat package.json"
+        run: cat ./package.json
+
+  # build-and-publish:
+  #   name: "Master CI - Build and Publish"
+  #   needs: bump-version
+  #   runs-on: ubuntu-latest
+
+  #   strategy:
+  #     matrix:
+  #       node-version: [12.x]
+
+  #   steps:
+  #     - name: "Checkout source code"
+  #       uses: "actions/checkout@v2"
+  #       with:
+  #         ref: ${{ github.ref }}
+
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
+  #         registry-url: 'https://npm.pkg.github.com'
+  #         scope: '@stage-tech'
+
+  #     - name: Cache dependencies
+  #       uses: actions/cache@v1
+  #       with:
+  #         path: node_modules
+  #         key: ${{ runner.OS }}-build-${{ hashFiles('yarn.lock') }}
+  #         restore-keys: |
+  #           ${{ runner.OS }}-build-${{ env.cache-name }}
+
+  #     - name: Install Dependencies
+  #       run: yarn
+  #       env:
+  #         NODE_AUTH_TOKEN: ${{ secrets.BUILD_ACTION_TOKEN }}
+  #
+  #     - name: Build and Lint
+  #       run: yarn lint
+
+  #     - run: yarn publish
+  #       env:
+  #         NODE_AUTH_TOKEN: ${{ secrets.BUILD_ACTION_TOKEN }}

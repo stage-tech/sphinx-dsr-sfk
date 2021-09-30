@@ -1,0 +1,15 @@
+{
+  "name": "@stage-tech/node-template-repo",
+  "description": "Add your project description here",
+  "version": "${version}",
+  "commitHash": "${hash}",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stage-tech/node-template-repo.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/stage-tech"
+  },
+  "packageSourceKey": "node-template-repo/master/node-template-repo-${hash}.zip",
+  "main": "index.js"
+}

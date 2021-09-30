@@ -1,0 +1,26 @@
+version: 2
+registries:
+  stage-tech: 
+    type: npm-registry
+    url: https://npm.pkg.github.com
+    token: ${{secrets.STAGE_TECH_READ_PACKAGES_TOKEN}}
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "06:51"
+    timezone: "Europe/Belfast"
+  open-pull-requests-limit: 11
+  target-branch: master
+  registries: 
+    - stage-tech
+  labels:
+  - dependencies
+  - dependabot
+  - automerge
+  commit-message:
+    prefix: chore
+  assignees:
+      - "stage-tech/sphinx-orchestration"
+    
