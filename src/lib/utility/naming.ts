@@ -3,12 +3,12 @@ import { Definition } from '../model';
 export class Naming {
   static typedSchemaName(def: Definition) {
     const sanitizedDefinitionId = def.id.replace(/[^A-Za-z0-9_$]/g, () => '_').toUpperCase();
-    return `${sanitizedDefinitionId}_TYPED`;
+    return `TYPED_${sanitizedDefinitionId}`;
   }
 
   static untypedSchemaName(def: Definition) {
     const sanitizedDefinitionId = def.id.replace(/[^A-Za-z0-9_$]/g, () => '_').toUpperCase();
-    return `${sanitizedDefinitionId}_UNTYPED`;
+    return `UNTYPED_${sanitizedDefinitionId}`;
   }
 
   static validationSchemaName(def: Definition) {
