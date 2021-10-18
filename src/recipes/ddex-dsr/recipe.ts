@@ -1,10 +1,6 @@
-import { Naming } from '@/lib/utility';
-
 import { StaticTemplateGenerator } from '../../lib';
-import { BaseRecipe, SchemaBaseRecipe } from '../../lib/base-recipe';
+import { BaseRecipe } from '../../lib/base-recipe';
 import { IGenerator } from '../../lib/interfaces';
-import { TypedView } from '../../lib/typed/typed-view';
-import { UntypedRecordTables } from '../../lib/untyped/untyped-record-tables';
 
 export class DdexDsrDbRecipe extends BaseRecipe {
   commonSubstitutions: { [key: string]: string };
