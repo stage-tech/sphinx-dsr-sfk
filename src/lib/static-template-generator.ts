@@ -17,7 +17,7 @@ export class StaticTemplateGenerator implements IGenerator {
     let output = template;
     if (this.substitutions != undefined) {
       for (const key in this.substitutions) {
-        output = replaceAll(output, `{{${key}}}`, this.substitutions[key]);
+        output = replaceAll(output, `%${key}%`, this.substitutions[key]);
       }
     }
     return output;

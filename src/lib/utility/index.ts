@@ -1,0 +1,1 @@
+export { Naming } from './naming';

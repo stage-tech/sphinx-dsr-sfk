@@ -1,15 +1,15 @@
 {
-  "name": "@stage-tech/node-template-repo",
-  "description": "Add your project description here",
+  "name": "@stage-tech/sphinx-dsr-sfk",
+  "description": "ddex-dsr snowflake templates generation repository",
   "version": "${version}",
   "commitHash": "${hash}",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/stage-tech/node-template-repo.git"
+    "url": "git+https://github.com/stage-tech/sphinx-dsr-sfk.git"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/stage-tech"
   },
-  "packageSourceKey": "node-template-repo/master/node-template-repo-${hash}.zip",
+  "packageSourceKey": "sphinx-dsr-sfk/master/sphinx-dsr-sfk-${hash}.zip",
   "main": "index.js"
 }
