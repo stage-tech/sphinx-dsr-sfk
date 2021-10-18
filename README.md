@@ -1,11 +1,11 @@
 # sphinx-dsr-sfk
 
-this repo contains ddex-dsr snowflake SQL templates generation code.
+This repo contains ddex-dsr snowflake SQL templates generation code.
 
 To generate the ddl scripts run:
 
 ```shell
-yarn generate:ddl envName
+yarn generate:ddl <envName>
 ```
 
 ## CI/CD
