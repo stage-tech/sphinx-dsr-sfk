@@ -5,7 +5,7 @@ import { ValidationStrategies } from './strategy/validation-strategy';
 export class ViolationsReport implements IGenerator {
   constructor(private def: Definition) {}
 
-  outputPath = 'validation/views.sql';
+  outputPath = 'validation/violations_report.sql';
 
   generate(): string {
     const def = this.def;

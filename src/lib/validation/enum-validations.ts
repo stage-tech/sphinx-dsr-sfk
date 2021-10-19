@@ -6,7 +6,7 @@ import { EnumValidationUtils } from './enum-validation-utils';
 export class EnumValidations implements IGenerator {
   constructor(private def: Definition) {}
 
-  outputPath = 'validation/enum_udf.sql';
+  outputPath = 'validation/enum_validations.sql';
   generate(): string {
     const def = this.def;
     const schemaName = Naming.validationSchemaName(def);

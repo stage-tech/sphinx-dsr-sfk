@@ -1,11 +1,18 @@
+import { UntypedDeleteSp } from '@/lib/untyped/delete-sp';
 import { Naming } from '@/lib/utility/naming';
+import { ValidationInsertSp } from '@/lib/validation/validation-insert-sp';
+import { ValidationView } from '@/lib/validation/validation-view';
 
 import { StaticTemplateGenerator } from '../../lib';
 import { BaseRecipe, SchemaBaseRecipe } from '../../lib/base-recipe';
 import { IGenerator } from '../../lib/interfaces';
 import { Definition } from '../../lib/model';
 import { TypedViews } from '../../lib/typed/typed-views';
+import { UntypedInsertSp } from '../../lib/untyped/insert-sp';
 import { UntypedRecordTables } from '../../lib/untyped/untyped-record-tables';
+import { EnumValidations } from '../../lib/validation/enum-validations';
+import { EnumValidation } from '../../lib/validation/strategy/enum';
+import { ViolationsReport } from '../../lib/validation/violation-report';
 
 export class DdexDsrDbRecipe extends BaseRecipe {
   commonSubstitutions: { [key: string]: string };
@@ -122,25 +129,21 @@ export const buildDdexStaticTemplates = (
       def,
       schemaName: untypedSchema,
     }),
-    new StaticTemplateGenerator(`${templateBase}/untyped/delete-sp.sql`, '/untyped/delete-sp.sql', commonSubstitutions),
-    new StaticTemplateGenerator(`${templateBase}/untyped/insert-sp.sql`, '/untyped/insert-sp.sql', commonSubstitutions),
+    new UntypedDeleteSp(def, `${commonSubstitutions.ENV}_DDEX_DSR`),
+    new UntypedInsertSp(def, `${commonSubstitutions.ENV}_DDEX_DSR`),
     new TypedViews({
       def,
       schemaName: typedSchema,
       sourceSchemaName: untypedSchema,
     }),
-    new StaticTemplateGenerator(`${templateBase}/validation/view.sql`, '/validation/view.sql', commonSubstitutions),
+    new ValidationView(def, `${commonSubstitutions.ENV}_DDEX_DSR`),
     new StaticTemplateGenerator(
       `${templateBase}/validation/structure-view.sql`,
       '/validation/structure-view.sql',
       commonSubstitutions,
     ),
     new StaticTemplateGenerator(`${templateBase}/validation/model.sql`, '/validation/model.sql', commonSubstitutions),
-    new StaticTemplateGenerator(
-      `${templateBase}/validation/insert-sp.sql`,
-      '/validation/insert-sp.sql',
-      commonSubstitutions,
-    ),
+    new ValidationInsertSp(def, `${commonSubstitutions.ENV}_DDEX_DSR`),
     new StaticTemplateGenerator(
       `${templateBase}/validation/delete-sp.sql`,
       '/validation/delete-sp.sql',
