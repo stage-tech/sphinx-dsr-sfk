@@ -1,10 +1,9 @@
-import { Definition, Field, Type } from '../../model';
+import { Definition, Field } from '../../model';
 import { ArrayMaximumSizeValidation, ArrayMinimumSizeValidation, ArrayMustBeExplicit } from './array';
 import { BooleanValidation } from './boolean';
 import { DateTimeValidation, DateValidation, DurationValidation, TimeValidation } from './date-and-time';
 import { EnumValidation } from './enum';
 import { NumericDecimal, NumericInteger, NumericMaximum, NumericMinimum } from './numeric';
-import { RequiredFieldValidation } from './required';
 import { StringAllowedValuedValidation, StringPatternValidation } from './string';
 
 export interface IValidationStrategy {
@@ -27,5 +26,4 @@ export const ValidationStrategies: IValidationStrategy[] = [
   new NumericMinimum(),
   new StringAllowedValuedValidation(),
   new StringPatternValidation(),
-  new RequiredFieldValidation(),
 ];
