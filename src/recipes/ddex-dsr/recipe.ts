@@ -132,7 +132,7 @@ export const buildDdexStaticTemplates = (
       schemaName: typedSchema,
       sourceSchemaName: untypedSchema,
     }),
-    new ValidationView(def, `${commonSubstitutions.ENV}_DDEX_DSR`),
+    // new ValidationView(def, `${commonSubstitutions.ENV}_DDEX_DSR`),
     new StaticTemplateGenerator(
       `${templateBase}/validation/structure-view.sql`,
       '/validation/structure-view.sql',

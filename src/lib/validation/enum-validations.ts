@@ -1,5 +1,5 @@
 import { IGenerator } from '../interfaces';
-import { Definition, Type } from '../model';
+import { Definition } from '../model';
 import { Naming } from '../utility/naming';
 import { EnumValidationUtils } from './enum-validation-utils';
 

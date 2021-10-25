@@ -3,27 +3,27 @@ import { ArrayMaximumSizeValidation, ArrayMinimumSizeValidation, ArrayMustBeExpl
 import { BooleanValidation } from './boolean';
 import { DateTimeValidation, DateValidation, DurationValidation, TimeValidation } from './date-and-time';
 import { EnumValidation } from './enum';
-import { NumericDecimal, NumericInteger, NumericMaximum, NumericMinimum } from './numeric';
+import { NumericDecimal, NumericInteger } from './numeric';
+import { RequiredFieldValidation } from './required';
 import { StringAllowedValuedValidation, StringPatternValidation } from './string';
 
 export interface IValidationStrategy {
-  getSqlValidationRule(field: Field, def?: Definition): string | undefined;
+  getSqlValidationRule(field: Field, modelName?: string, def?: Definition): string | undefined;
 }
 
 export const ValidationStrategies: IValidationStrategy[] = [
+  new RequiredFieldValidation(),
   new ArrayMustBeExplicit(),
-  new ArrayMaximumSizeValidation(),
-  new ArrayMinimumSizeValidation(),
+  new NumericInteger(),
+  new NumericDecimal(),
   new BooleanValidation(),
+  new DurationValidation(),
   new DateTimeValidation(),
   new DateValidation(),
   new TimeValidation(),
-  new DurationValidation(),
   new EnumValidation(),
-  new NumericInteger(),
-  new NumericDecimal(),
-  new NumericMaximum(),
-  new NumericMinimum(),
-  new StringAllowedValuedValidation(),
   new StringPatternValidation(),
+  new StringAllowedValuedValidation(),
+  new ArrayMinimumSizeValidation(),
+  new ArrayMaximumSizeValidation(),
 ];
