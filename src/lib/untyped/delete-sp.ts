@@ -13,6 +13,8 @@ export class UntypedDeleteSp implements IGenerator {
     const targetSchema = Naming.untypedSchemaName(def);
     let sqlText = ``;
 
+    sqlText += `USE ${sourceDb}.${targetSchema};\n`;
+
     sqlText += `create or replace procedure delete_assets(ASSET_IDS ARRAY)
   returns boolean
   language javascript
@@ -28,8 +30,6 @@ var assets = "'" + ASSET_IDS.join("','") + "'";
       const viewSql = `var ${ddlModelName} = snowflake.execute({sqlText: \`DELETE FROM ${sourceDb}.${targetSchema}.${ddlModelName} WHERE ASSET_ID in (\${assets})\`});`;
       sqlText += `${viewSql}\n`;
     }
-    const viewSql = `var UNEXPECTED_RECORD = snowflake.execute({sqlText: \`DELETE FROM ${sourceDb}.${targetSchema}.UNEXPECTED_RECORD WHERE ASSET_ID in (\${assets})\`});`;
-    sqlText += viewSql;
     sqlText += `  $$
   ;
 `;

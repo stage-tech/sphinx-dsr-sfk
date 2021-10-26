@@ -8,10 +8,10 @@ export class NumericInteger implements IValidationStrategy {
     if (field.type == Type.INTEGER) {
       violationRule += `IFF(${fieldName}[0] is null, null, IFF(${fieldName}[0]::string REGEXP '\\\\\\\\d+', null, OBJECT_CONSTRUCT('FIELD', '${fieldName}', 'LINE_INDEX', LINE_INDEX::integer, 'RECORD_TYPE', '${modelName}', 'FIELD_VALUE', ${fieldName}, 'VIOLATION_TYPE', 'NOT_INTEGER')))\n`;
       if (field.minSize) {
-        violationRule += `${new NumericMinimum().getSqlValidationRule(field, modelName)}\n`;
+        violationRule += `,${new NumericMinimum().getSqlValidationRule(field, modelName)}\n`;
       }
       if (field.maxSize) {
-        violationRule += `${new NumericMaximum().getSqlValidationRule(field, modelName)}\n`;
+        violationRule += `,${new NumericMaximum().getSqlValidationRule(field, modelName)}\n`;
       }
       return violationRule;
     }
@@ -27,10 +27,10 @@ export class NumericDecimal implements IValidationStrategy {
     if (field.type == Type.DECIMAL) {
       violationRule += `IFF(${fieldName}[0] is null, null, IFF(${fieldName}[0]::string REGEXP '\\\\\\\\d+(\\\\.\\\\\\\\d+)?', null, OBJECT_CONSTRUCT('FIELD', '${fieldName}', 'LINE_INDEX', LINE_INDEX::integer, 'RECORD_TYPE', '${modelName}', 'FIELD_VALUE', ${fieldName}, 'VIOLATION_TYPE', 'NOT_DECIMAL')))\n`;
       if (field.minSize) {
-        violationRule += `${new NumericMinimum().getSqlValidationRule(field, modelName)}\n`;
+        violationRule += `,${new NumericMinimum().getSqlValidationRule(field, modelName)}\n`;
       }
       if (field.maxSize) {
-        violationRule += `${new NumericMaximum().getSqlValidationRule(field, modelName)}\n`;
+        violationRule += `,${new NumericMaximum().getSqlValidationRule(field, modelName)}\n`;
       }
       return violationRule;
     }

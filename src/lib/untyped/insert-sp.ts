@@ -39,25 +39,14 @@ export class UntypedInsertSp implements IGenerator {
       }
 
       const viewSql = `var ${ddlModelName} = snowflake.execute({sqlText: \`INSERT INTO ${sourceDb}.${targetSchema}.${ddlModelName} (
-    ASSET_ID,\n  LINE_INDEX,\n  ${fields.join(',\n  ')},\n  UNEXPECTED_DATA)\nSELECT\n  ASSET_ID,\n  LINE_INDEX,
-    ${fieldsLookup.join(',\n  ')},
-    ARRAY_SLICE(FIELDS, ${lastPosition}, ARRAY_SIZE(FIELDS))
+    ASSET_ID,\n  LINE_INDEX,\n  ${fields.join(',\n  ')})\nSELECT\n  ASSET_ID,\n  LINE_INDEX,
+    ${fieldsLookup.join(',\n  ')}
     from \${STAGING_TABLE} DF
     where FIELDS[0][0] = '${modelName}'
     and ASSET_ID in (\${assets})\`});`;
       sqlText += viewSql;
       sqlText += '\n';
     }
-
-    const viewSql = `var UNEXPECTED_RECORD = snowflake.execute({sqlText: \`INSERT INTO ${sourceDb}.${targetSchema}.UNEXPECTED_RECORD (
-    ASSET_ID,\n  LINE_INDEX,\n  UNEXPECTED_DATA)\nSELECT\n  ASSET_ID,\n  LINE_INDEX,\n  FIELDS
-    from \${STAGING_TABLE} DF
-    where FIELDS[0][0] not in ('${Object.keys(def.models).join("','")}')
-    and SUBSTR(FIELDS[0][0], 1, 1) != '#'
-    and ASSET_ID in (\${assets})\`});`;
-
-    sqlText += viewSql;
-    sqlText += '\n';
     sqlText += `  $$
     ;
     `;
