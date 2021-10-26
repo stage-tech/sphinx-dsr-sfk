@@ -1,12 +1,12 @@
 import { IGenerator } from '../interfaces';
-import { Definition, Type } from '../model';
+import { Definition } from '../model';
 import { Naming } from '../utility/naming';
 import { EnumValidationUtils } from './enum-validation-utils';
 
 export class EnumValidations implements IGenerator {
   constructor(private def: Definition) {}
 
-  outputPath = 'validation/enum_udf.sql';
+  outputPath = 'validation/enum_validations.sql';
   generate(): string {
     const def = this.def;
     const schemaName = Naming.validationSchemaName(def);

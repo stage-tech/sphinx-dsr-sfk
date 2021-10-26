@@ -6,7 +6,7 @@ import { ExecutionType, StoredProcedureWrapper } from '../proc-wrapper';
 export class LoadRecords implements IGenerator {
   constructor(private def: Definition, private rawDbName?: string) {}
 
-  outputPath = 'procs/load-records.sql';
+  outputPath = 'untyped/load-records.sql';
   generate(): string {
     const def = this.def;
 

@@ -13,7 +13,7 @@ export class Naming {
 
   static validationSchemaName(def: Definition) {
     const sanitizedDefinitionId = def.id.replace(/[^A-Za-z0-9_$]/g, () => '_').toUpperCase();
-    return `${sanitizedDefinitionId}_VALIDATION`;
+    return `VALIDATION_${sanitizedDefinitionId}`;
   }
 
   static publishedSchemaName(def: Definition) {
