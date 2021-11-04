@@ -14,7 +14,7 @@ export class ValidationInsertSp implements IGenerator {
 
     let sqlText = '';
 
-    sqlText += `create or replace procedure insert_violations(ASSET_IDS ARRAY)
+    sqlText += `create or replace procedure insert_violations(VIOLATION_TABLE VARCHAR, ASSET_IDS ARRAY)
   returns boolean
   language javascript
   EXECUTE AS CALLER
@@ -46,7 +46,7 @@ var useSchema = snowflake.execute({sqlText: 'use schema ${sourceDb}.${targetSche
       }
 
       validationTables.push(`${ddlModelName}_VALIDATION`);
-      const viewSql = `var insertViolations_${ddlModelName} = snowflake.execute({sqlText: \`INSERT INTO VIOLATION (
+      const viewSql = `var insertViolations_${ddlModelName} = snowflake.execute({sqlText: \`INSERT INTO \${VIOLATION_TABLE} (
   ASSET_ID,\n  ASSET_PART,\n  VIOLATION,\n  VIOLATION_DETAIL\n) 
 WITH
 v as (SELECT

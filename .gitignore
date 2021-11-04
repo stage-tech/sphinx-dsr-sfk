@@ -120,3 +120,5 @@ temp/
 test_dist
 
 generated
+
+.idea/
