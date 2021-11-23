@@ -125,7 +125,8 @@ from ${flatFileTable}`});
     } catch (err) {
     }
     return JSON.stringify({
-        state: 'COMPLETED'
+        state: 'COMPLETED',
+        messages: []
     });
 } catch (err) {
     return JSON.stringify({
